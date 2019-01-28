@@ -1,0 +1,362 @@
+<div id="ST">
+  <form [formGroup]="installmentCodeFrom">
+    <div class="content no-pdcontenform">
+      <div class="row">
+        <div class=" col-sm-12 form-group">
+          <div class="col-lg-1 col-sm-12 custom-input" align="left"></div>
+          <div class="col-lg-10 col-sm-12 custom-input" align="left">
+            <!-- {{installmentCodeFrom.value | json}} -->
+            <!-- //////////////////// Search Installment Code //////////////////// -->
+            <div class="header-title">
+              <div class="title-collapse">
+
+                <a data-toggle="collapse" href="#collapseInstallmentCode" aria-expanded="true" aria-controls="collapseExample">
+                  <span>Search Installment Code</span>
+                </a>
+
+              </div>
+            </div>
+            <div class="collapse in" #collapseProduct id="collapseInstallmentCode" style="padding-bottom:0">
+
+              <div class="row">
+                <div class="col-sm-4 form-group">
+                  <div class="col-lg-3 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+                    <label for="tradeName">Channel
+                      <!-- <span style="color:red">*</span> -->
+                    </label>
+
+                    <!-- <ais-checkbox *ngFor="let el of listChannel" [label]="el.value"></ais-checkbox> -->
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 form-group" *ngFor="let el of listChannel">
+                  <div class="col-lg-4 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+
+                    <ais-checkbox [(model)]="el.selected" [label]="el.lovVal" (modelChange)="checkFilterChannel(el);" [disabled]="booDisableCheckbox && el.lovVal != 'ALL'"></ais-checkbox>
+
+                  </div>
+                </div>
+              </div>
+
+              <br>
+
+              <div class="row">
+                <div class="col-sm-4 form-group">
+                  <div class="col-lg-3 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input" [ngClass]="{'has-error': invalidBrand}">
+                    <label for="tradeName">Brand
+                    </label>
+
+                    <input trim="blur" class="form-control" type="text" id="Brand" formControlName="brand" placeholder="Input At Least 2 Characters" >
+                    <span *ngIf="invalidBrand" style="color:#ea0303"> {{'ER104' | translate}} </span>
+                  </div>
+                </div>
+                <div class=" col-sm-4 form-group">
+                  <div class="col-lg-2 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input" [ngClass]="{'has-error': invalidModel}">
+                    <label>Model</label>
+                    <input trim="blur" class="form-control" type="text" id="Model" formControlName="model" placeholder="Input At Least 2 Characters" >
+                    <span *ngIf="invalidModel" style="color:#ea0303"> {{'ER105' | translate}} </span>
+                  </div>
+                </div>
+                <div class=" col-sm-4 form-group">
+                  <div class="col-lg-1 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+                    <label for="launchStartDate">Company
+                    </label>
+
+                    <select class="form-control " id="company" formControlName="company">
+                      <option value="">Please Select</option>
+                      <option *ngFor="let el of listCompany" [value]="el.value">{{el.label}}</option>
+                    </select>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4 form-group">
+                  <div class="col-lg-3 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+                    <label for="tradeName">Bank
+                    </label>
+
+                    <select class="form-control " id="Bank" formControlName="bankCode">
+                      <option value="">Please Select</option>
+                      <option *ngFor="let el of listBank" [value]="el.lovCode">{{el.description}}</option>
+                    </select>
+
+                  </div>
+                </div>
+                <div class=" col-sm-4 form-group">
+                  <div class="col-lg-2 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+                    <label>Term</label>
+
+                    <select class="form-control " id="Term" formControlName="insTermId">
+                      <option value="">Please Select</option>
+                      <option *ngFor="let el of listTerm" [value]="el.lovCode">{{el.lovVal}}</option>
+                    </select>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4 form-group">
+                  <div class="col-lg-3 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+                    <label>Start Date</label>
+
+                    <ais-daterangepicker #startDatePicker (dateValue)="setDatePicker('start',$event)" [singleDatePicker]="true" [defaultDateValue]="false"></ais-daterangepicker>
+                  </div>
+                </div>
+                <div class=" col-sm-4 form-group">
+                  <div class="col-lg-2 col-sm-12 custom-input">
+                  </div>
+                  <div class="col-lg-8 col-sm-12 custom-input">
+                    <label for="endDate">End Date
+                    </label>
+
+                    <ais-daterangepicker #endDatePicker (mousedown)="setMinDate(startDatePicker)" (dateValue)="setDatePicker('end',$event)"
+                      [minDate]="startDatePicker" [singleDatePicker]="true" [defaultDateValue]="false"></ais-daterangepicker>
+                  </div>
+                </div>
+              </div>
+              <br>
+
+              <div class="row  no-margin-top">
+                <div class="col-xs-12  text-center">
+                  <button class="btn btn-white-green" id="btnSearchInstallmentCode" (click)="queryInstallmentCode(startDatePicker, endDatePicker)" style="min-width: 50px;" (blur)="msgCode = '';invalidBrand=false;invalidModel=false">
+                    <span>Search</span>
+                  </button>
+                </div>
+                <div class="col-xs-12  text-center">
+                  <span class="error-text-small">
+                    <span *ngIf="msgCode != ''">{{msgCode | translate}}</span>
+                  </span>
+                </div>
+              </div>
+
+
+            </div>
+            <br>
+
+
+            <!-- //////////////////// Search Result //////////////////// -->
+            <div class="header-title" *ngIf="summaryDataList.length">
+              <div class="title-collapse">
+
+                <a data-toggle="collapse" href="#collapseResult" aria-expanded="true" aria-controls="collapseExample">
+                  <span>Search Result</span>
+                </a>
+
+              </div>
+            </div>
+
+            <div class="collapse in" #collapseSummaryTradeCondition id="collapseResult" style="padding-botom:0" *ngIf="summaryDataList.length">
+
+
+              <div class="row  no-margin-top" style="margin-bottom:10px;">
+                <div class="col-xs-12  text-left">
+                  <button id="btnDeleteInstallmentCode" class="btn btn-white-red" style="min-width: 50px;" (mousedown)="onClickShowPopupConfirmDelete()">
+                    <span>Delete</span>
+                  </button>
+                  <button id="btnExportInstallmentCode" class="btn btn-white-green" style="min-width: 50px;" (mousedown)="ExportFile()">
+                    <span>Export</span>
+                  </button>
+                </div>
+              </div>
+              <!-- {{summaryDataList | json}} -->
+              <ais-datatable [config]="datatableConfig" [data]="summaryDataList" [isNotCheckSelectAllWhenDataChange]="true" #datatable>
+                <ng-template ngFor let-item let-i="index" [ngForOf]="datatable.items">
+                  <tr>
+                    <td style="white-space:normal;word-break: break-all;" class="text-align-center">
+                      <ais-checkbox [(model)]="item.selected" (modelChange)="onChangeEachSelectedDatatable(item)" *ngIf="item.ownerFlag ==='Y'"></ais-checkbox>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.ChannelVal}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <select class="form-control" [(ngModel)]="item.channelType" (change)="onChannelChange(item);" [ngModelOptions]="{standalone: true}" id="selectChannelType">
+                          <option *ngFor="let el of listChannel"  [value]="el.lovCode" [hidden]="el.lovCode == 'ALL'">{{el.lovVal}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.description}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <select class="form-control" [(ngModel)]="item.bankCode" (change)="onBankChange(item);" [ngModelOptions]="{standalone: true}"
+                          id="selectBankVal">
+                          <option *ngFor="let el of listBank" [value]="el.lovCode">{{el.description}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.company}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <select class="form-control" [(ngModel)]="item.company" [ngModelOptions]="{standalone: true}" id="selectCompany">
+                          <option *ngFor="let el of listCompany" [value]="el.value">{{el.label}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.brand}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.brand" [ngModelOptions]="{standalone: true}" id="txtÚBrand">
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.model}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.model" [ngModelOptions]="{standalone: true}" id="txtModel">
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.installmentProjectType}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.installmentProjectType" [ngModelOptions]="{standalone: true}" id="txtInstallmentProjectType">
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.TermVal}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <select class="form-control" [(ngModel)]="item.insTermId" (change)="onTermChange(item);" [ngModelOptions]="{standalone: true}"
+                          id="selectTerm">
+                          <option *ngFor="let el of listTerm " [value]="el.lovCode">{{el.lovVal}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.promoCode}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.promoCode" [ngModelOptions]="{standalone: true}" id="txtPromoCode">
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.insCode}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.insCode" [ngModelOptions]="{standalone: true}" id="txtInsCode">
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.remark}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.remark" [ngModelOptions]="{standalone: true}" id="txtRemark">
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.absorbBy}}
+                      </span>
+
+<!--                       <span *ngIf="item.isEdit">
+                        <input type="text" trim="blur" [(ngModel)]="item.absorbBy" [ngModelOptions]="{standalone: true}" id="txtAbsorbBy">
+                      </span> -->
+
+                      <span *ngIf="item.isEdit">
+                        <select class="form-control" [(ngModel)]="item.absorbBy" [ngModelOptions]="{standalone: true}"
+                          id="txtAbsorbBy">
+                          <option *ngFor="let el of listAbsorbBy " [value]="el.value">{{el.label}}</option>
+                        </select>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.effectiveDtm}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <ais-daterangepicker (dateValue)="editDatePicker('start', item.installmentId, $event);" [singleDatePicker]="true" [format]="'DD/MM/YYYY'"
+                          [startDate]="item.effectiveDtm" #editEffectiveDtm>
+                        </ais-daterangepicker>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;word-break: break-all;">
+                      <span *ngIf="!item.isEdit">
+                        {{item.expireDtm}}
+                      </span>
+
+                      <span *ngIf="item.isEdit">
+                        <ais-daterangepicker (dateValue)="editDatePicker('end', item.installmentId, $event)" [singleDatePicker]="true" [format]="'DD/MM/YYYY'"
+                          [startDate]="item.expireDtm" [minDate]="item.effectiveDtm" #editExpireDtm>
+                        </ais-daterangepicker>
+                      </span>
+                    </td>
+                    <td style="white-space:normal;text-align: center;">
+                      <a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" *ngIf="!item.isEdit && item.ownerFlag == 'Y'" (click)="onEdit(item);"></a>
+                      <button class="save" style="border: none; background-color: transparent;" data-toggle="tooltip" data-placement="top" title="Save" *ngIf="item.isEdit" (blur)="onBlurSave()" (click)="onSave(item.installmentId);"></button>
+                      <a class="cancel" data-toggle="tooltip" data-placement="top" title="Cancel" *ngIf="item.isEdit" (click)="onCancel(); item.isEdit = false;"></a>
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="item.isEdit && validateStatus == false">
+                    <td colspan="15">
+                      <span style="color:red;">{{ msgErrEdit }}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </ais-datatable>
+
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+  </form>
+
+</div>
+
+<app-popup-utils [msgConfirm]="'DELETEMSG' | translate" [msgButtonConfirm]="'BTCONFIRM' | translate" [msgButtonCancel]="'BTCANCEL' | translate"
+  [cssButtonCancel]="'btn-cancel'" (onConfirm)=DeleteInstallmentCode() #popupConfirmDelete></app-popup-utils>
